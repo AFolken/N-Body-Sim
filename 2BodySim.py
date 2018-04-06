@@ -56,16 +56,23 @@ def force(Object1,Object2):
     return 'f,ax,ay',f,Object1.ax,Object1.ay
 
 
-def NewPositionVelocity(object,t):
-    """Calculates the postition of the object on the next timestep"""
+def NewVelocity(object,t):
+    """Calculates the velocity of the object on the next timestep"""
 
     object.vx += object.ax*t
     object.vy += object.ay*t
-
-    object.x += object.vx*t##+0.5*object1.ax*t**2 #try without a?
-    object.y += object.vy*t##+0.5*object1.ay*t**2
+    
+def NewPosition(object,t):
+    """Calculates the postition of the object on the next timestep"""
+    
+    object.x += object.vx*t
+    object.y += object.vy*t
         
     return 'x,y',round(object.x,4),round(object.y,4)
+
+def NewPositionVelocity(object,t):
+    NewVelocity(object,t)
+    NewPosition(object,t)
 
 def RunSim(object1,object2,t):
     
@@ -88,13 +95,15 @@ def RunSim(object1,object2,t):
 
             NewPositionVelocity(object1,i)
             NewPositionVelocity(object2,i)
-        
-            print('p1',objectinfo(p1), 'p2', objectinfo(p2))
+            #NewPosition(object1,i)
+            #NewPosition(object2,i)
+            
+            print('p1',round(p1.x,2),round(p1.y,2), objectinfo(p1),'p2', objectinfo(p2))#round(p2.x,2),round(p2.y,2))
             time.sleep(.05)
         
-p1 = Object(20,0,10000000,0,0)
+p1 = Object(200,0,10000000,0,1)
 p2 = Object(0,0,10000000,0,0)
 
 
-RunSim(p1,p2,4)
+RunSim(p1,p2,10)
 
